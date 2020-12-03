@@ -17,12 +17,10 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifdef NRF52
-
-#include "nrf.h"
-
 #include "Arduino.h"
 #include "wiring_private.h"
+
+#if defined(NRF52_SERIES)
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,18 +29,22 @@ extern "C" {
 static uint32_t saadcReference = SAADC_CH_CONFIG_REFSEL_Internal;
 static uint32_t saadcGain      = SAADC_CH_CONFIG_GAIN_Gain1_5;
 
-#define PWM_COUNT 3
-
 static NRF_PWM_Type* pwms[PWM_COUNT] = {
   NRF_PWM0,
   NRF_PWM1,
-  NRF_PWM2
+  NRF_PWM2,
+#if PWM_COUNT > 3
+  NRF_PWM3
+#endif
 };
 
 static uint32_t pwmChannelPins[PWM_COUNT] = {
   0xFFFFFFFF,
   0xFFFFFFFF,
-  0xFFFFFFFF
+  0xFFFFFFFF,
+#if PWM_COUNT > 3
+  0xFFFFFFFF,
+#endif
 };
 static uint16_t pwmChannelSequence[PWM_COUNT];
 

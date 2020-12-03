@@ -7,6 +7,9 @@
 #include <string.h>
 #include <math.h>
 
+#include "nrf.h"
+#include "nrf_peripherals.h"
+
 typedef bool boolean;
 typedef uint8_t byte;
 typedef uint16_t word;
@@ -92,9 +95,20 @@ void loop( void ) ;
 
 #define bit(b) (1UL << (b))
 
-#define digitalPinToPort(P)        ( &(NRF_GPIO[P]) )
-#define digitalPinToBitMask(P)     ( 1 << g_ADigitalPinMap[P] )
-//#define analogInPinToBit(P)        ( )
+#if (GPIO_COUNT == 1)
+#define gpioBaseForPin(P)          ( NRF_GPIO )
+#define digitalPinToPort(P)        ( (NRF_GPIO_Type *) gpioBaseForPin(P) )
+#define digitalPinToPin(P)         ( g_ADigitalPinMap[P] )
+#define digitalPinToBitMask(P)     ( 1 << digitalPinToPin(P) )
+#elif (GPIO_COUNT == 2)
+#define gpioBaseForPin(P)          ( (g_ADigitalPinMap[P] & 0x20) ? NRF_P1 : NRF_P0 )
+#define digitalPinToPort(P)        ( (NRF_GPIO_Type *) gpioBaseForPin(P) )
+#define digitalPinToPin(P)         ( g_ADigitalPinMap[P] & 0x1f )
+#define digitalPinToBitMask(P)     ( 1 << digitalPinToPin(P) )
+#else
+#error "Unsupported GPIO_COUNT"
+#endif
+
 #define portOutputRegister(port)   ( &(port->OUTSET) )
 #define portInputRegister(port)    ( &(port->IN) )
 #define portModeRegister(port)     ( &(port->DIRSET) )

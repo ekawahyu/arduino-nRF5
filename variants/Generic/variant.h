@@ -17,8 +17,11 @@
 #ifndef _VARIANT_GENERIC_
 #define _VARIANT_GENERIC_
 
+#include "nrf.h"
+#include "nrf_peripherals.h"
+
 /** Master clock frequency */
-#ifdef NRF52
+#if defined(NRF52_SERIES)
 #define VARIANT_MCK       (64000000ul)
 #else
 #define VARIANT_MCK       (16000000ul)
@@ -36,8 +39,15 @@ extern "C"
 #endif // __cplusplus
 
 // Number of pins defined in PinDescription array
+#if GPIO_COUNT == 1
 #define PINS_COUNT           (32u)
 #define NUM_DIGITAL_PINS     (32u)
+#elif GPIO_COUNT == 2
+#define PINS_COUNT           (64u)
+#define NUM_DIGITAL_PINS     (64u)
+#else
+#error "Unsupported GPIO_COUNT"
+#endif
 #define NUM_ANALOG_INPUTS    (6u)
 #define NUM_ANALOG_OUTPUTS   (0u)
 
@@ -61,7 +71,7 @@ static const uint8_t A2  = PIN_A2 ;
 static const uint8_t A3  = PIN_A3 ;
 static const uint8_t A4  = PIN_A4 ;
 static const uint8_t A5  = PIN_A5 ;
-#ifdef NRF52
+#if defined(NRF52_SERIES)
 #define ADC_RESOLUTION    14
 #else
 #define ADC_RESOLUTION    10

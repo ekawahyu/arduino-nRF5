@@ -61,7 +61,7 @@ loop
         NOP
         NOP
         NOP
-#ifdef NRF52
+#if defined(NRF52_SERIES)
         NOP
         NOP
         NOP
@@ -130,7 +130,7 @@ __ASM (
        " NOP\n\t"
        " NOP\n\t"
        " NOP\n\t"
-#ifdef NRF52
+#if defined(NRF52_SERIES)
         " NOP\n\t"
         " NOP\n\t"
         " NOP\n\t"
@@ -213,7 +213,7 @@ __ASM volatile (
     " NOP\n"
     " NOP\n"
     " NOP\n"
-#ifdef NRF52
+#if defined(NRF52_SERIES)
     " NOP\n"
     " NOP\n"
     " NOP\n"

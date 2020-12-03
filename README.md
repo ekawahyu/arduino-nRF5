@@ -192,7 +192,7 @@ The SD consumes ~5k of Ram + some extra based on actual BLE configuration.
   * Linux: ```~/Arduino```
   * Windows: ```~/Documents/Arduino```
  3. Create a folder named ```hardware```, if it does not exist, and change directories to it
- 4. Clone this repo: ```git clone https://github.com/sandeepmistry/arduino-nRF5.git sandeepmistry/nRF5```
+ 4. Clone this repo: ```git clone https://github.com/sandeepmistry/arduino-nRF5.git sandeepmistry-github/nRF5```
  5. Restart the Arduino IDE
 
 ## BLE
